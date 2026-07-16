@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>4JU — 가족 사주 궁합 리포트</title>
+  <meta name="description" content="생년월일로 보는 사주 성향, 부모-아이 궁합 점수, 가족 오행 밸런스 리포트" />
+  <meta property="og:title" content="4JU — 가족 사주 궁합 리포트" />
+  <meta property="og:description" content="사주 계산값과 해석 근거를 분리해서 보여주는 생활형 사주 리포트" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <style>
+    :root{
+      --blue:#3182f6; --blue2:#1b64da; --sky:#eaf3ff; --ink:#101828; --muted:#667085;
+      --line:#e5eaf2; --bg:#f6f8fb; --card:#fff; --green:#12b76a; --orange:#f79009;
+      --red:#f04438; --purple:#7a5af8; --shadow:0 18px 45px rgba(16,24,40,.08);
+      --radius:26px;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+    button,input,select{font:inherit} a{color:inherit}.wrap{max-width:1120px;margin:0 auto;padding:22px}.hero{position:relative;overflow:hidden;border-radius:34px;background:linear-gradient(135deg,#0d5bd7 0%,#3182f6 48%,#73b4ff 100%);color:white;padding:42px 28px;box-shadow:var(--shadow)}
+    .hero:before{content:"";position:absolute;right:-110px;top:-140px;width:360px;height:360px;border-radius:999px;background:rgba(255,255,255,.18)}.hero:after{content:"";position:absolute;right:80px;bottom:-170px;width:300px;height:300px;border-radius:999px;background:rgba(255,255,255,.12)}
+    .hero>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.hero h1{font-size:clamp(34px,7vw,72px);line-height:1.03;margin:20px 0 14px;letter-spacing:-.06em}.hero p{font-size:clamp(16px,2.6vw,22px);max-width:720px;margin:0 0 24px;color:rgba(255,255,255,.9)}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{border:0;border-radius:18px;padding:15px 20px;font-weight:900;cursor:pointer;transition:.16s transform,.16s box-shadow}.btn:hover{transform:translateY(-1px)}.btn.primary{background:white;color:#145bd7;box-shadow:0 12px 24px rgba(0,0,0,.16)}.btn.blue{background:var(--blue);color:white}.btn.ghost{background:rgba(255,255,255,.14);color:white;border:1px solid rgba(255,255,255,.28)}
+    .grid{display:grid;gap:18px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)}.four{grid-template-columns:repeat(4,1fr)}@media(max-width:860px){.two,.three,.four{grid-template-columns:1fr}.wrap{padding:14px}.hero{padding:32px 20px;border-radius:28px}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.section{margin-top:22px}.section h2{font-size:28px;letter-spacing:-.04em;margin:0 0 12px}.section .sub{color:var(--muted);margin:-4px 0 16px}.input-row{display:grid;grid-template-columns:1.15fr .72fr .6fr .6fr;gap:10px;align-items:end}.input-row label{font-size:13px;color:var(--muted);font-weight:800;display:block;margin-bottom:6px}.field{width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px 13px;outline:none}.field:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(49,130,246,.11)}@media(max-width:760px){.input-row{grid-template-columns:1fr 1fr}.input-row .wide{grid-column:1/-1}}
+    .people{display:grid;gap:12px}.person{border:1px solid var(--line);border-radius:22px;padding:16px;background:#fbfdff}.person-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.role{font-weight:950}.mini{font-size:12px;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:var(--sky);color:#145bd7;padding:7px 10px;font-weight:900;font-size:12px}.result{display:none}.result.on{display:block}.chart{display:flex;gap:8px;flex-wrap:wrap}.gz{min-width:74px;flex:1;background:#f7f9fc;border:1px solid var(--line);border-radius:18px;padding:13px;text-align:center}.gz b{display:block;font-size:22px}.gz span{font-size:12px;color:var(--muted)}
+    .type-card{background:linear-gradient(180deg,#fff,#f8fbff);border:1px solid var(--line);border-radius:24px;padding:18px}.type-title{font-size:22px;font-weight:950;letter-spacing:-.035em}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tag{border-radius:999px;background:#f2f4f7;color:#344054;padding:7px 10px;font-weight:800;font-size:12px}.bar{height:12px;border-radius:999px;background:#edf1f7;overflow:hidden}.bar>i{display:block;height:100%;border-radius:999px;background:var(--blue);width:30%}.el-row{display:grid;grid-template-columns:42px 1fr 30px;gap:10px;align-items:center;margin:10px 0}.score{font-size:40px;font-weight:1000;letter-spacing:-.06em}.score.good{color:var(--blue)}.score.mid{color:var(--orange)}.compat{display:grid;gap:12px}.compat-item{display:grid;grid-template-columns:82px 1fr;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:20px;background:#fff}.meter{height:10px;border-radius:999px;background:#eef2f7;overflow:hidden;margin:8px 0}.meter i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),#7a5af8)}
+    .notice{background:#fff8e8;border:1px solid #fedf89;border-radius:22px;padding:16px;color:#7a4b00}.evidence{background:#f9fafb;border:1px dashed #cfd6e3;border-radius:20px;padding:14px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:white;cursor:pointer;font-weight:900;color:#475467}.tab.on{background:var(--blue);color:white;border-color:var(--blue)}.footer{padding:28px 0;color:var(--muted);font-size:13px;text-align:center}.hidden{display:none!important}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="badge">🔵 Toss-blue 사주 리포트 MVP</div>
+      <h1>가족 사주를<br/>점수와 근거로 보기</h1>
+      <p>생년월일을 넣으면 사주 계산값, 대표 타입, 부모-아이 궁합 점수, 실전 양육/생활 조언을 카드형으로 보여줍니다.</p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="document.querySelector('#app').scrollIntoView({behavior:'smooth'})">무료로 바로 보기</button>
+        <button class="btn ghost" onclick="loadDemo()">예시 가족 불러오기</button>
+      </div>
+    </section>
+
+    <section id="app" class="section grid two">
+      <div class="card">
+        <h2>1분 입력</h2>
+        <p class="sub">양력 기준 · 한국 시간 · 전통 명리학 상징 기반 참고용 리포트</p>
+        <div class="people" id="people"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn blue" onclick="generate()">리포트 만들기</button>
+          <button class="btn" onclick="addChild()">아이 추가</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>이 사이트의 방향</h2>
+        <div class="notice">사주는 과학적 진단이나 확정 예언이 아니라, 전통 상징을 활용한 자기이해/가족대화용 콘텐츠입니다.</div>
+        <div class="grid" style="margin-top:14px">
+          <div class="evidence"><b>계산값</b><br/><span class="mini">년주·월주·일주·시주를 먼저 공개</span></div>
+          <div class="evidence"><b>근거 분리</b><br/><span class="mini">오행/십간 상징과 현대식 번역을 구분</span></div>
+          <div class="evidence"><b>생활 적용</b><br/><span class="mini">아이 성향, 궁합, 말투, 루틴까지 연결</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="section result">
+      <div class="tabs" id="tabs"></div>
+      <div id="report" class="grid"></div>
+    </section>
+
+    <section class="section grid three">
+      <div class="card"><div class="pill">아이 사주</div><h2>우리 아이 타입</h2><p class="sub">丁火 표현형, 壬水 상상형, 庚金 기준형처럼 쉬운 언어로 설명합니다.</p></div>
+      <div class="card"><div class="pill">궁합 점수</div><h2>엄마·아빠와 아이</h2><p class="sub">오행 생극, 일지 합충해를 기반으로 간단 점수와 이유를 보여줍니다.</p></div>
+      <div class="card"><div class="pill">실전 조언</div><h2>말투와 루틴</h2><p class="sub">“감정 인정 후 규칙”, “짧은 미션”처럼 바로 쓰는 조언으로 바꿉니다.</p></div>
+    </section>
+
+    <footer class="footer">4JU MVP · 전통 사주명리학 상징 체계 기반 엔터테인먼트/자기이해용</footer>
+  </main>
+
+<script>
+const stems=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const branches=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const stemEl={甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+const branchEl={子:'水',丑:'土',寅:'木',卯:'木',辰:'土',巳:'火',午:'火',未:'土',申:'金',酉:'金',戌:'土',亥:'水'};
+const korEl={木:'목',火:'화',土:'토',金:'금',水:'수'};
+const elColor={木:'#12b76a',火:'#f04438',土:'#f79009',金:'#667085',水:'#3182f6'};
+const stemKor={甲:'갑',乙:'을',丙:'병',丁:'정',戊:'무',己:'기',庚:'경',辛:'신',壬:'임',癸:'계'};
+const branchKor={子:'자',丑:'축',寅:'인',卯:'묘',辰:'진',巳:'사',午:'오',未:'미',申:'신',酉:'유',戌:'술',亥:'해'};
+const dayInfo={
+  甲:{label:'甲木 큰나무형',summary:'곧게 자라는 큰 나무처럼 목표와 성장 욕구가 뚜렷합니다.',tags:['성장','리더십','원칙'],tips:['큰 목표를 작게 쪼개면 좋습니다','경쟁보다 성장 기록이 잘 맞습니다','답답한 환경에서는 산책/자연 루틴이 도움됩니다']},
+  乙:{label:'乙木 화초형',summary:'유연하게 연결하고 적응하는 힘이 강합니다.',tags:['연결','기획','적응'],tips:['관계와 환경의 영향을 많이 받습니다','마감 루틴을 잡으면 강점이 살아납니다','콘텐츠/기획/중개형 활동이 잘 맞습니다']},
+  丙:{label:'丙火 태양형',summary:'밝게 드러나고 사람을 움직이는 에너지가 있습니다.',tags:['표현','활동','존재감'],tips:['무대와 발표 기회를 주세요','과열되면 쉬는 시간을 먼저 잡으세요','칭찬은 공개적으로, 지적은 짧게']},
+  丁:{label:'丁火 조명형',summary:'섬세한 빛처럼 감각과 표현력이 살아나는 타입입니다.',tags:['표현력','감각','자존심'],tips:['짧은 미션과 구체적 칭찬이 좋습니다','억누르기보다 표현할 무대를 주세요','잠들기 전 화면과 과한 자극을 줄이세요']},
+  戊:{label:'戊土 산형',summary:'큰 산처럼 버티는 힘과 현실감이 있습니다.',tags:['안정','책임','고집'],tips:['변화는 예고하고 천천히 주세요','역할을 맡기면 책임감이 살아납니다','몸을 움직여 답답함을 빼야 합니다']},
+  己:{label:'己土 밭형',summary:'돌보고 키우는 힘, 생활 감각이 좋은 타입입니다.',tags:['관리','돌봄','현실감'],tips:['루틴과 정리 체계가 중요합니다','작은 성취를 꾸준히 쌓게 하세요','남을 챙기다 지치지 않게 경계를 세우세요']},
+  庚:{label:'庚金 원석형',summary:'기준이 분명하고 승부욕·결단력이 있는 타입입니다.',tags:['기준','승부','완성'],tips:['규칙과 목표를 명확히 주세요','자존심을 꺾기보다 다시 도전하게 하세요','블록/퍼즐/운동/도구 활동이 잘 맞습니다']},
+  辛:{label:'辛金 보석형',summary:'미세한 차이를 잡는 정밀함과 감각 기준이 있습니다.',tags:['정밀','감각','완성도'],tips:['작은 실수를 크게 느낄 수 있습니다','칭찬은 디테일하게 해주세요','소리/빛/정리 환경에 민감할 수 있습니다']},
+  壬:{label:'壬水 바다형',summary:'생각과 상상력이 넓게 흐르는 관찰형입니다.',tags:['상상력','감정','호기심'],tips:['이유를 설명하면 잘 따라옵니다','책/이야기/탐구형 학습이 좋습니다','감정을 먼저 인정한 뒤 규칙을 주세요']},
+  癸:{label:'癸水 이슬형',summary:'섬세한 감각과 기억, 분위기 감지가 강한 타입입니다.',tags:['섬세함','감각','기억'],tips:['소음과 분위기에 민감할 수 있습니다','감정이 쌓이지 않게 말로 풀게 하세요','정밀한 도구/케어/관찰 일이 잘 맞습니다']}
+};
+const peopleDefault=[
+ {role:'아빠',date:'1986-08-29',time:'12:00',unknown:true,type:'parent'},
+ {role:'엄마',date:'1991-02-22',time:'12:00',unknown:true,type:'parent'},
+ {role:'첫째',date:'2018-07-04',time:'11:00',unknown:false,type:'child'},
+ {role:'둘째',date:'2020-06-28',time:'06:00',unknown:false,type:'child'},
+ {role:'셋째',date:'2024-11-02',time:'13:00',unknown:false,type:'child'}
+];
+let people=[...peopleDefault];
+function renderPeople(){
+ document.getElementById('people').innerHTML=people.map((p,i)=>`<div class="person"><div class="person-head"><div><div class="role">${p.role}</div><div class="mini">${p.type==='parent'?'부모':'아이'} 정보</div></div>${i>1?`<button class="btn" onclick="removePerson(${i})" style="padding:9px 12px;border-radius:12px">삭제</button>`:''}</div><div class="input-row"><div class="wide"><label>이름/역할</label><input class="field" value="${p.role}" onchange="people[${i}].role=this.value"></div><div><label>생년월일</label><input class="field" type="date" value="${p.date}" onchange="people[${i}].date=this.value"></div><div><label>시간</label><input class="field" type="time" value="${p.time}" onchange="people[${i}].time=this.value"></div><div><label>구분</label><select class="field" onchange="people[${i}].type=this.value"><option value="parent" ${p.type==='parent'?'selected':''}>부모</option><option value="child" ${p.type==='child'?'selected':''}>아이</option></select></div></div><label style="display:flex;gap:8px;margin-top:10px;color:var(--muted);font-weight:800"><input type="checkbox" ${p.unknown?'checked':''} onchange="people[${i}].unknown=this.checked"> 태어난 시간 모름/임시</label></div>`).join('');
+}
+function addChild(){people.push({role:`아이${people.filter(p=>p.type==='child').length+1}`,date:'2020-01-01',time:'12:00',unknown:false,type:'child'});renderPeople()}
+function removePerson(i){people.splice(i,1);renderPeople()}
+function loadDemo(){people=[...peopleDefault];renderPeople();generate();}
+function mod(n,m){return ((n%m)+m)%m}
+function jd(y,m,d){ if(m<=2){y--;m+=12} let A=Math.floor(y/100),B=2-A+Math.floor(A/4); return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524; }
+function gzFromIdx(idx){return stems[mod(idx,10)]+branches[mod(idx,12)]}
+function yearGZ(y,m,d){ let ly=y; if(m<2 || (m===2&&d<4)) ly--; return gzFromIdx(ly-1984); }
+function monthGZ(y,m,d){ // 절기 근사: 월주는 절기 기준. MVP는 일반 날짜 경계 근사.
+ const starts=[[2,4],[3,6],[4,5],[5,6],[6,6],[7,7],[8,8],[9,8],[10,8],[11,7],[12,7],[1,6]]; // 寅..丑
+ let solarMonthIndex;
+ if((m===1&&d>=6)||(m===2&&d<4)) solarMonthIndex=11; else if(m===2) solarMonthIndex=0; else if(m===3) solarMonthIndex=d<6?0:1; else if(m===4) solarMonthIndex=d<5?1:2; else if(m===5) solarMonthIndex=d<6?2:3; else if(m===6) solarMonthIndex=d<6?3:4; else if(m===7) solarMonthIndex=d<7?4:5; else if(m===8) solarMonthIndex=d<8?5:6; else if(m===9) solarMonthIndex=d<8?6:7; else if(m===10) solarMonthIndex=d<8?7:8; else if(m===11) solarMonthIndex=d<7?8:9; else if(m===12) solarMonthIndex=d<7?9:10; else solarMonthIndex=10;
+ const yg=yearGZ(y,m,d)[0]; const yStem=stems.indexOf(yg); const firstStemMap={0:2,5:2,1:4,6:4,2:6,7:6,3:8,8:8,4:0,9:0};
+ const stemIdx=mod(firstStemMap[yStem]+solarMonthIndex,10); const branchIdx=mod(2+solarMonthIndex,12); return stems[stemIdx]+branches[branchIdx];
+}
+function dayGZ(y,m,d){ // verified against lunar_python examples: 2020-06-28 = 壬寅, 2024-11-02 = 庚午
+ const index=mod(jd(y,m,d)+49,60); return gzFromIdx(index); }
+function timeGZ(dayStem,h){ const branchIdx = h===23 ? 0 : Math.floor((h+1)/2)%12; const firstMap={0:0,5:0,1:2,6:2,2:4,7:4,3:6,8:6,4:8,9:8}; const stemIdx=mod(firstMap[stems.indexOf(dayStem)]+branchIdx,10); return stems[stemIdx]+branches[branchIdx]; }
+function calc(date,time){ const [y,m,d]=date.split('-').map(Number); const h=Number((time||'12:00').split(':')[0]); const yg=yearGZ(y,m,d), mg=monthGZ(y,m,d), dg=dayGZ(y,m,d), tg=timeGZ(dg[0],h); return {y,m,d,h,year:yg,month:mg,day:dg,time:tg,dm:dg[0],dz:dg[1]}; }
+function elementCounts(c){ const counts={木:0,火:0,土:0,金:0,水:0}; [c.year,c.month,c.day,c.time].forEach(g=>{counts[stemEl[g[0]]]++; counts[branchEl[g[1]]]++;}); return counts; }
+function branchRelation(a,b){ const combos=['子丑','寅亥','卯戌','辰酉','巳申','午未']; const clashes=['子午','丑未','寅申','卯酉','辰戌','巳亥']; const harms=['子未','丑午','寅巳','卯辰','申亥','酉戌']; const pair=a+b, rev=b+a; if(combos.includes(pair)||combos.includes(rev)) return ['합','정서적 끌림/유대 포인트']; if(clashes.includes(pair)||clashes.includes(rev)) return ['충','성향 차이와 부딪힘 포인트']; if(harms.includes(pair)||harms.includes(rev)) return ['해','은근한 불편함/생활 꼬임 포인트']; return ['보통','큰 합충해는 약함']; }
+function relationScore(parent,child){ const pe=stemEl[parent.dm], ce=stemEl[child.dm]; const generates={木:'火',火:'土',土:'金',金:'水',水:'木'}; const controls={木:'土',土:'水',水:'火',火:'金',金:'木'}; let score=74, notes=[];
+ if(generates[pe]===ce){score+=8;notes.push('부모가 아이 기운을 살려주는 구조');}
+ if(generates[ce]===pe){score+=10;notes.push('아이가 부모에게 정서적 활력/영감을 주는 구조');}
+ if(pe===ce){score+=9;notes.push('일간 오행이 같아 감정선이 통하기 쉬움');}
+ if(controls[pe]===ce){score-=4;notes.push('부모가 아이를 강하게 잡으려는 구도가 생길 수 있음');}
+ if(controls[ce]===pe){score-=6;notes.push('아이 기준/에너지가 부모와 부딪힐 수 있음');}
+ const [rel,txt]=branchRelation(parent.dz, child.dz); if(rel==='합'){score+=8;notes.push(`일지 ${parent.dz}${child.dz} ${rel}: ${txt}`)} if(rel==='충'){score-=8;notes.push(`일지 ${parent.dz}${child.dz} ${rel}: ${txt}`)} if(rel==='해'){score-=4;notes.push(`일지 ${parent.dz}${child.dz} ${rel}: ${txt}`)}
+ return {score:Math.max(55,Math.min(94,score)),notes};
+}
+function chartHtml(c,p){ const gz=[['년주',c.year],['월주',c.month],['일주',c.day],['시주',p.unknown?'임시 '+c.time:c.time]]; return `<div class="chart">${gz.map(x=>`<div class="gz"><span>${x[0]}</span><b>${x[1]}</b><span>${stemKor[x[1].replace('임시 ','')[0]]}${branchKor[x[1].replace('임시 ','')[1]]}</span></div>`).join('')}</div>`; }
+function elementHtml(counts){ const max=Math.max(...Object.values(counts)); return `<div>${Object.entries(counts).map(([e,v])=>`<div class="el-row"><b>${korEl[e]}</b><div class="bar"><i style="width:${(v/max)*100}%;background:${elColor[e]}"></i></div><span>${v}</span></div>`).join('')}</div>`; }
+function personCard(p,c){ const info=dayInfo[c.dm]; const counts=elementCounts(c); return `<div class="card"><div class="pill">${p.role} · ${info.label}</div><h2>${p.role} 리포트</h2>${chartHtml(c,p)}<div class="type-card" style="margin-top:14px"><div class="type-title">${info.summary}</div><div class="tags">${info.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div><div class="grid two" style="margin-top:14px"><div><h3>오행 흐름</h3>${elementHtml(counts)}</div><div><h3>오늘 바로 쓰는 루틴</h3><ol>${info.tips.map(t=>`<li>${t}</li>`).join('')}</ol></div></div><div class="evidence" style="margin-top:14px"><b>근거 체인</b><br/>계산값: ${c.year} ${c.month} ${c.day} ${p.unknown?'(시주 임시) '+c.time:c.time}<br/>명리 기본: ${c.dm} 일간은 ${info.label}으로 봅니다.<br/>현대 번역: ${info.summary}</div></div>`; }
+function compatibilitySection(calcs){ const parents=calcs.filter(x=>x.p.type==='parent'), children=calcs.filter(x=>x.p.type==='child'); if(!parents.length||!children.length) return '';
+ let html=`<div class="card"><h2>부모-아이 궁합 점수</h2><p class="sub">일간 오행 생극 + 일지 합/충/해를 간단 점수화한 MVP입니다.</p><div class="compat">`;
+ parents.forEach(pa=>children.forEach(ch=>{ const r=relationScore(pa.c,ch.c); html+=`<div class="compat-item"><div><div class="score ${r.score>=80?'good':'mid'}">${r.score}</div><div class="mini">점</div></div><div><b>${pa.p.role} × ${ch.p.role}</b><div class="meter"><i style="width:${r.score}%"></i></div><div class="mini">${r.notes.slice(0,2).join(' · ')||'무난한 관계. 생활 루틴과 말투가 궁합을 좌우합니다.'}</div></div></div>`;}));
+ return html+`</div></div>`;
+}
+function familyBalance(calcs){ const total={木:0,火:0,土:0,金:0,水:0}; calcs.forEach(x=>{const c=elementCounts(x.c); Object.keys(total).forEach(k=>total[k]+=c[k]);}); const strong=Object.entries(total).sort((a,b)=>b[1]-a[1])[0][0]; const advice={木:'성장/기획 에너지가 강합니다. 마무리 루틴을 보강하세요.',火:'표현/활동 에너지가 강합니다. 수면과 휴식으로 과열을 식히세요.',土:'안정/고집 에너지가 강합니다. 산책과 변화 예고가 중요합니다.',金:'기준/정밀 에너지가 강합니다. 지적보다 인정 후 수정이 좋습니다.',水:'감정/상상 에너지가 강합니다. 말로 풀고 루틴을 시각화하세요.'}; return `<div class="card"><h2>가족 오행 밸런스</h2>${elementHtml(total)}<div class="notice" style="margin-top:14px"><b>${korEl[strong]} 기운이 가장 강한 가족</b><br/>${advice[strong]}</div></div>`; }
+function generate(){ const calcs=people.filter(p=>p.date).map(p=>({p,c:calc(p.date,p.time)})); const tabs=document.getElementById('tabs'); tabs.innerHTML=`<button class="tab on" onclick="showTab('summary',this)">가족요약</button>`+calcs.map((x,i)=>`<button class="tab" onclick="showTab('p${i}',this)">${x.p.role}</button>`).join(''); window.reports={summary:familyBalance(calcs)+compatibilitySection(calcs)}; calcs.forEach((x,i)=>window.reports['p'+i]=personCard(x.p,x.c)); document.getElementById('result').classList.add('on'); showTab('summary',tabs.querySelector('.tab')); document.getElementById('result').scrollIntoView({behavior:'smooth'}); }
+function showTab(key,el){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on')); if(el)el.classList.add('on'); document.getElementById('report').innerHTML=window.reports[key]||''; }
+renderPeople();
+</script>
+</body>
+</html>

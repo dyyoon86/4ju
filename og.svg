@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0d5bd7"/><stop offset="0.55" stop-color="#3182f6"/><stop offset="1" stop-color="#73b4ff"/></linearGradient></defs>
+  <rect width="1200" height="630" rx="42" fill="url(#g)"/>
+  <circle cx="1030" cy="80" r="190" fill="white" opacity="0.16"/>
+  <circle cx="940" cy="570" r="170" fill="white" opacity="0.12"/>
+  <text x="80" y="120" fill="white" font-size="34" font-family="Arial, sans-serif" font-weight="800">4JU · 가족 사주 궁합 리포트</text>
+  <text x="80" y="260" fill="white" font-size="76" font-family="Arial, sans-serif" font-weight="900">사주를 점수와</text>
+  <text x="80" y="350" fill="white" font-size="76" font-family="Arial, sans-serif" font-weight="900">근거로 보기</text>
+  <text x="84" y="440" fill="white" opacity="0.9" font-size="30" font-family="Arial, sans-serif">부모-아이 궁합 · 가족 오행 밸런스 · 실전 양육 조언</text>
+</svg>
