@@ -196,7 +196,7 @@
             </div>
             <div class="personForm">
               <input id="personName" placeholder="이름 예: 배우자" />
-              <input id="personBirth" inputmode="numeric" maxlength="8" placeholder="생년월일 8자리" />
+              <input id="personBirth" inputmode="numeric" maxlength="8" placeholder="예: 910222 또는 19910222" />
               <button onclick="addPersonFromForm()">추가</button>
             </div>
             <div id="compatPanel" class="compatPanel">
@@ -462,14 +462,16 @@
       const url=new URL(location.href); url.search=''; url.searchParams.set('birth',state.birth); url.searchParams.set('calendar',state.calendar); url.searchParams.set('time',state.time); if(state.premium) url.searchParams.set('premiumtest','1');
       if(navigator.clipboard){navigator.clipboard.writeText(url.toString()).then(()=>toast('다시보기 링크를 복사했어요.')).catch(()=>toast(url.toString()));} else toast(url.toString());
     }
-    function validBirth(v){if(!/^\d{8}$/.test(v)) return false; const y=+v.slice(0,4),m=+v.slice(4,6),d=+v.slice(6,8); const dt=new Date(y,m-1,d); return y>=1900&&y<=2099&&dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d;}
+    function normalizeBirthInput(v){v=String(v||'').replace(/\D/g,'').slice(0,8); if(v.length===6){const yy=+v.slice(0,2); const prefix=yy<=30?'20':'19'; v=prefix+v;} return v;}
+    function validBirth(v){v=normalizeBirthInput(v); if(!/^\d{8}$/.test(v)) return false; const y=+v.slice(0,4),m=+v.slice(4,6),d=+v.slice(6,8); const dt=new Date(y,m-1,d); return y>=1900&&y<=2099&&dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d;}
     function updateBirth(){const v=birth.value.replace(/\D/g,'').slice(0,8); birth.value=v; state.birth=v; const ok=validBirth(v); document.getElementById('birthLine').classList.toggle('valid',ok); document.getElementById('birthNext').disabled=!ok; document.getElementById('birthError').classList.remove('show');}
     const birth=document.getElementById('birth'); birth.addEventListener('input',updateBirth);
     document.querySelectorAll('[data-calendar]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-calendar]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.calendar=btn.dataset.calendar;}));
     document.getElementById('unknownTimeChip').addEventListener('click',e=>{e.currentTarget.classList.toggle('active');state.unknownTime=e.currentTarget.classList.contains('active');});
     document.getElementById('birthNext').addEventListener('click',()=>{if(!validBirth(state.birth)){document.getElementById('birthError').classList.add('show');return} show(state.unknownTime?'email':'time');});
     document.querySelectorAll('.back').forEach(btn=>btn.addEventListener('click',()=>show(btn.dataset.back)));
-    document.querySelectorAll('.timeBtn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.timeBtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.time=btn.dataset.time;}));
+    document.querySelectorAll('[data-time]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-time]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.time=btn.dataset.time;}));
+    document.addEventListener('keydown',e=>{if(e.key==='Enter' && (e.target?.id==='personBirth' || e.target?.id==='personName')){e.preventDefault(); addPersonFromForm();}});
     document.getElementById('timeNext').addEventListener('click',()=>show('email'));
     document.getElementById('skipTime').addEventListener('click',()=>{state.time='unknown';show('email')});
 
@@ -599,7 +601,7 @@
     function ensureCanvasSeed(){updateCreditUI(); if(canvasPeople.length) return; addCanvasPerson({name:'나',birth:state.birth||'19860829',x:28,y:34},true);}
     function addCanvasPerson(p,silent=false){const [type,stem,element]=getTypeByBirth(p.birth); canvasPeople.push({id:'p'+Date.now()+Math.random().toString(16).slice(2),name:p.name||'사람',birth:p.birth,type,stem,element,x:p.x??(40+canvasPeople.length*28),y:p.y??(42+canvasPeople.length*24)}); renderCanvas(); if(!silent) toast('캔버스에 추가했어요.');}
     function addCurrentToCanvas(){addCanvasPerson({name:'나',birth:state.birth||'19860829',x:24+canvasPeople.length*18,y:32+canvasPeople.length*18});}
-    function addPersonFromForm(){const name=document.getElementById('personName').value.trim()||'사람'; const birth=document.getElementById('personBirth').value.replace(/\D/g,'').slice(0,8); if(!validBirth(birth)){toast('생년월일 8자리를 확인해주세요.');return;} addCanvasPerson({name,birth}); document.getElementById('personName').value=''; document.getElementById('personBirth').value='';}
+    function addPersonFromForm(){const name=document.getElementById('personName').value.trim()||'사람'; const raw=document.getElementById('personBirth').value; const birth=normalizeBirthInput(raw); if(!validBirth(birth)){toast('생년월일을 확인해주세요. 예: 910222 또는 19910222');return;} addCanvasPerson({name,birth}); document.getElementById('personName').value=''; document.getElementById('personBirth').value='';}
     function renderCanvas(){const box=document.getElementById('canvasBox'); if(!box) return; box.querySelectorAll('.personNode').forEach(n=>n.remove()); canvasPeople.forEach(p=>{const b=document.createElement('button'); b.className='personNode '+p.element+(selectedPeople.includes(p.id)?' selected':''); b.dataset.id=p.id; b.style.left=Math.max(4,Math.min(p.x,210))+'px'; b.style.top=Math.max(4,Math.min(p.y,190))+'px'; b.innerHTML=`<div class="personName">${p.name}</div><div class="personType">${p.type}</div><div class="personBirth">${formatBirthText(p.birth)}</div><div class="personStem">${p.stem[0]}</div>`; b.addEventListener('click',e=>{if(b.dataset.dragged==='1'){b.dataset.dragged='0';return;} selectPerson(p.id)}); attachDrag(b,p); box.appendChild(b);}); updateCompat();}
     function attachDrag(node,p){let sx=0,sy=0,ox=0,oy=0,moved=false; node.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;ox=p.x;oy=p.y;moved=false;node.setPointerCapture(e.pointerId)}); node.addEventListener('pointermove',e=>{if(!node.hasPointerCapture(e.pointerId)) return; const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;p.x=Math.max(4,Math.min(210,ox+dx));p.y=Math.max(4,Math.min(190,oy+dy));node.style.left=p.x+'px';node.style.top=p.y+'px';}); node.addEventListener('pointerup',e=>{try{node.releasePointerCapture(e.pointerId)}catch(_){} if(moved) node.dataset.dragged='1'; setTimeout(()=>node.dataset.dragged='0',60);});}
     function selectPerson(id){if(selectedPeople.includes(id)) selectedPeople=selectedPeople.filter(x=>x!==id); else selectedPeople=[...selectedPeople.slice(-1),id]; renderCanvas();}
