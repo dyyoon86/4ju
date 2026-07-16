@@ -378,14 +378,38 @@
       statusHint.textContent=hint;
       statusHint.dataset.aiStatus=kind;
     }
+    function humanizeReportText(text){
+      return (text||'')
+        .replace(/핵심은\s*/g,'')
+        .replace(/중요한 건\s*/g,'')
+        .replace(/정리하면\s*/g,'')
+        .replace(/전환됩니다/g,'바뀝니다')
+        .replace(/이어집니다/g,'넘어갑니다')
+        .replace(/구조화하면/g,'정리해두면')
+        .replace(/구조화/g,'정리')
+        .replace(/활용하면/g,'써보면')
+        .replace(/활용할/g,'써볼')
+        .replace(/활용 하/g,'써보')
+        .replace(/활용하/g,'써보')
+        .replace(/활용/g,'쓰기')
+        .replace(/가능합니다/g,'할 수 있어요')
+        .replace(/필요합니다/g,'필요해요')
+        .replace(/권장됩니다/g,'좋아요')
+        .replace(/도움이 됩니다/g,'도움돼요')
+        .replace(/\s*—\s*/g,'. ')
+        .replace(/\n{3,}/g,'\n\n')
+        .trim();
+    }
     async function generateAIReport(){
       const ai=document.getElementById('aiSummary'), premium=document.getElementById('premiumAiText');
       setAIStatus('loading','AI 호출중','Pollinations LLM에 요청을 보내고 응답을 기다리는 중입니다.');
-      ai.textContent='AI가 입력값과 계산 타입을 바탕으로 문장을 생성하고 있어요.';
-      if(premium) premium.textContent='AI가 돈/일·관계·올해 흐름·루틴을 다시 작성하고 있어요.';
+      ai.textContent='입력값을 보고 실제 사람이 말하듯 문장을 다시 쓰고 있어요.';
+      if(premium) premium.textContent='돈/일·관계·올해 흐름·루틴을 딱딱한 AI 말투 없이 다시 쓰는 중이에요.';
       const type=document.getElementById('resultType').textContent, stem=document.getElementById('resultStem').textContent;
       const birthText=`${state.birth.slice(0,4)}-${state.birth.slice(4,6)}-${state.birth.slice(6,8)}`;
-      const prompt=`한국어 사주 자기이해 리포트. 입력값: ${birthText} ${state.calendar==='solar'?'양력':'음력'}, 출생시간 ${state.time==='unknown'?'모름':state.time}, 타입 ${type}/${stem}. 절대 금지: 별자리, 음력이라고 바꾸기, 간지 새로 계산하기, 공포/확정예측, 질병·투자 지시. 제공된 타입만 근거로 현대적 조언 작성. 말투는 자연스럽고 구체적으로.
+      const prompt=`너는 점집 카피라이터가 아니라, 카톡으로 사주 리포트를 설명해주는 한국인 상담자다. 입력값: ${birthText} ${state.calendar==='solar'?'양력':'음력'}, 출생시간 ${state.time==='unknown'?'모름':state.time}, 타입 ${type}/${stem}.
+절대 금지: 별자리, 음력이라고 바꾸기, 간지 새로 계산하기, 공포/확정예측, 질병·투자 지시, AI라는 말, '핵심은', '중요한 건', '정리하면', '구조화', '전환됩니다', '이어집니다', '활용', '가능합니다', '필요합니다', 과하게 친절한 챗봇 말투.
+문체: 반말은 쓰지 말고, 너무 공손한 보고서 말투도 쓰지 마라. 짧은 문장 위주. 말로 읽었을 때 자연스럽게. 약간 현실적인 조언. 뻔한 위로 금지. 한 문장에 추상명사 2개 이상 금지. 예: '일을 구조화하면 안정됩니다' 말고 '할 일을 세 개만 적고, 하나 끝내면 다음 걸 여세요.'
 [요약] 4문장
 [돈일] 3문장
 [관계] 3문장
@@ -396,12 +420,12 @@
         const url='https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?model=openai-fast&seed='+encodeURIComponent(state.birth||'saju')+'&json=false';
         const res=await fetch(url,{signal:controller.signal,cache:'no-store'});
         if(!res.ok) throw new Error('AI 응답 실패 '+res.status);
-        const text=(await res.text()).replace(/```[a-z]*|```/g,'').trim();
+        const text=humanizeReportText((await res.text()).replace(/```[a-z]*|```/g,'').trim());
         if(!text || /Queue full|error|Rate limit|timeout/i.test(text.slice(0,300))) throw new Error('AI 응답 내용 오류');
         const sec=parseSections(text);
-        ai.textContent=sec['요약']||text.slice(0,520);
-        const deep=[sec['돈일']&&`돈/일\n${sec['돈일']}`,sec['관계']&&`관계\n${sec['관계']}`,sec['올해']&&`올해 흐름\n${sec['올해']}`,sec['루틴']&&`30일 루틴\n${sec['루틴']}`].filter(Boolean).join('\n\n');
-        if(premium) premium.textContent=deep||text;
+        ai.textContent=humanizeReportText(sec['요약']||text.slice(0,520));
+        const deep=[sec['돈일']&&`돈/일\n${humanizeReportText(sec['돈일'])}`,sec['관계']&&`관계\n${humanizeReportText(sec['관계'])}`,sec['올해']&&`올해 흐름\n${humanizeReportText(sec['올해'])}`,sec['루틴']&&`30일 루틴\n${humanizeReportText(sec['루틴'])}`].filter(Boolean).join('\n\n');
+        if(premium) premium.textContent=humanizeReportText(deep||text);
         setAIStatus('success','AI 호출 성공','이 문장은 Pollinations LLM 응답을 받아 실제로 교체된 결과입니다.');
       }catch(e){
         setAIStatus('fallback','기본해석 표시','AI 호출 실패/지연으로 템플릿 기반 기본 해석을 표시 중입니다. 사유: '+(e&&e.message?e.message:'알 수 없음'));
