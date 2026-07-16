@@ -376,13 +376,13 @@
       if(premium) premium.textContent='AI가 돈/일·관계·올해 흐름·루틴을 다시 작성하고 있어요.';
       const type=document.getElementById('resultType').textContent, stem=document.getElementById('resultStem').textContent;
       const birthText=`${state.birth.slice(0,4)}-${state.birth.slice(4,6)}-${state.birth.slice(6,8)}`;
-      const prompt=`너는 한국어 사주 자기이해 리포트 작가다. 입력: 생년월일 ${birthText}, 달력 ${state.calendar}, 출생시간 ${state.time==='unknown'?'모름':state.time}, 기본 타입 ${type} ${stem}. 무속/공포/확정예측/질병·투자 지시는 금지. 과학처럼 단정하지 말고, 전통 명리 상징을 현대 생활 조언으로 번역해라. 고객이 실제 LLM이 쓴 것처럼 느끼도록 개인에게 말하듯 자연스럽고 구체적으로 써라. 아래 라벨을 반드시 지켜라.
-[요약] 4문장. 이 사람의 핵심 분위기, 강점, 피곤할 때의 패턴, 오늘 써먹을 조언.
-[돈일] 3문장. 돈 버는 방식과 피해야 할 일 방식.
-[관계] 3문장. 관계에서 반복되는 오해와 좋은 말투.
-[올해] 3문장. 올해는 무엇을 늘리고 무엇을 줄일지.
-[루틴] 4줄. 1주차/2주차/3주차/4주차 실행 처방.`;
-      const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),16000);
+      const prompt=`한국어 사주 자기이해 리포트. 입력값: ${birthText} ${state.calendar==='solar'?'양력':'음력'}, 출생시간 ${state.time==='unknown'?'모름':state.time}, 타입 ${type}/${stem}. 절대 금지: 별자리, 음력이라고 바꾸기, 간지 새로 계산하기, 공포/확정예측, 질병·투자 지시. 제공된 타입만 근거로 현대적 조언 작성. 말투는 자연스럽고 구체적으로.
+[요약] 4문장
+[돈일] 3문장
+[관계] 3문장
+[올해] 3문장
+[루틴] 1주차/2주차/3주차/4주차 한 줄씩`;
+      const controller=new AbortController(); const timer=setTimeout(()=>controller.abort(),22000);
       try{
         const url='https://text.pollinations.ai/'+encodeURIComponent(prompt)+'?model=openai-fast&seed='+encodeURIComponent(state.birth||'saju')+'&json=false';
         const res=await fetch(url,{signal:controller.signal,cache:'no-store'});
